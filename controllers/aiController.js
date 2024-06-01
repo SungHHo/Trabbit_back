@@ -124,11 +124,16 @@ exports.getSchedule = async (req, res) => {
             if (!userMSG) {
                 return res.status(400).json({ msg: 'Clova API 응답에서 오류 발생' });
             }
-            const plan = OpenAi.parsingExactScheduleFromGpt(userMSG);
+            const plan = await OpenAi.parsingExactScheduleFromGpt(userMSG);
             plans.push(plan);
         }
-        console.log(plans);
-        return res.status(200).json({ plans }); 
+        const result = {
+            spots: plans.flat() // plans 배열의 모든 항목을 하나의 배열로 평탄화
+        };
+        const scheduleData = result.spots;
+        const data = JSON.stringify(scheduleData);
+        console.log(data);
+        return res.status(200).json(data); // 수정된 형식으로 응답
     }    
     catch (err) {
         console.error('Error:', err.message);
