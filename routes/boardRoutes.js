@@ -2,8 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const boardController = require(" ../controllers/boardController");
-const commentController = require("../controllers/commentController");
+const boardController = require("../controllers/boardController");
 
 router.get("/categories", boardController.getCategories);
 router.get("/posts", boardController.getPosts);
@@ -13,14 +12,11 @@ router.put("/post/:post_id", boardController.updatePost);
 router.delete("/post/:post_id", boardController.deletePost);
 router.post("/post/:post_id/comment", boardController.createComment);
 
-//댓글 관련 라우트
+// 댓글 관련 라우트
 router.get(
   "/comment/:comment_id/recommendation-status",
-  commentController.checkRecommendationStatus
+  boardController.checkRecommendationStatus
 );
-router.post(
-  "/comment/:comment_id/recommend",
-  commentController.recommendComment
-);
+router.post("/comment/:comment_id/recommend", boardController.recommendComment);
 
 module.exports = router;
